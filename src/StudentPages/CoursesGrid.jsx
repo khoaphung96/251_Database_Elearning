@@ -10,7 +10,10 @@ function CoursesGrid({ coursesOffering }) {
       }}
     >
       {coursesOffering.map((courseOffering) => (
-        <CourseCard key={courseOffering.id} courseOffering={courseOffering} />
+        <CourseCard
+          key={courseOffering.data.offering_id}
+          courseOffering={courseOffering.data}
+        />
       ))}
     </div>
   );

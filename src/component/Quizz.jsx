@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 import "../css/courseDetail.css";
 
 export default function Quizz({}) {
@@ -7,8 +8,8 @@ export default function Quizz({}) {
   const [quizzes, setQuizzes] = useState([]);
   const [error, setError] = useState(null);
   const API_URL = "https://canxphung.dev/api";
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiYWRtaW5AbG1zLmNvbSIsInVzZXJDb2RlIjoiQURNSU4wMDEiLCJyb2xlIjoic3RhZmYiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzY1MDA0OTc4LCJleHAiOjE3NjUwMDg1Nzh9.xdgbuCmdhFb3GMuhUUI00Ou3HL2POQ2oOf12KI8FjtE";
+  const token = localStorage.getItem("token");
+  const payload = jwtDecode(token);
 
   useEffect(() => {
     const loadQuizzList = async (path) => {
@@ -33,11 +34,15 @@ export default function Quizz({}) {
     loadQuizzList(`/assessment/quizzes`);
   }, []);
 
-  const quizzByOffering = quizzes.filter((quizz) => quizz.offering_id == id);
+  let quizzByOffering = quizzes.filter((quizz) => quizz.offering_id == id);
+
+  quizzByOffering = Array.isArray(quizzByOffering)
+    ? quizzByOffering
+    : [quizzByOffering];
 
   return (
     <div className="section">
-      {<h1 className="section-header">Lectures</h1>}
+      {<h1 className="section-header">Quizzes</h1>}
       {quizzes &&
         (!quizzByOffering.length ? (
           quizzByOffering.url ? (
@@ -49,7 +54,13 @@ export default function Quizz({}) {
               {quizzByOffering.title}
             </a>
           ) : (
-            <p className="section-body_content" key={quizzByOffering.seq_no}>
+            <p
+              className="section-body_content"
+              key={quizzByOffering.seq_no}
+              onClick={() =>
+                (window.location.href = `/course/${id}/Quizzes/${quizzByOffering.seq_no}`)
+              }
+            >
               {quizzByOffering.title}
             </p>
           )
@@ -64,7 +75,13 @@ export default function Quizz({}) {
                 {quizz.title}
               </a>
             ) : (
-              <p className="section-body_content" key={quizz.seq_no}>
+              <p
+                className="section-body_content"
+                key={quizz.seq_no}
+                onClick={() =>
+                  (window.location.href = `/course/${id}/Quizzes/${quizz.seq_no}`)
+                }
+              >
                 {quizz.title}
               </p>
             );

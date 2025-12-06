@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 import "../css/courseDetail.css";
 
 export default function Section({}) {
@@ -7,8 +8,8 @@ export default function Section({}) {
   const [contents, setContents] = useState([]);
   const [error, setError] = useState(null);
   const API_URL = "https://canxphung.dev/api";
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiYWRtaW5AbG1zLmNvbSIsInVzZXJDb2RlIjoiQURNSU4wMDEiLCJyb2xlIjoic3RhZmYiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzY1MDA0OTc4LCJleHAiOjE3NjUwMDg1Nzh9.xdgbuCmdhFb3GMuhUUI00Ou3HL2POQ2oOf12KI8FjtE";
+  const token = localStorage.getItem("token");
+  const payload = jwtDecode(token);
 
   useEffect(() => {
     const loadContentList = async (path) => {

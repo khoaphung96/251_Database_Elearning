@@ -7,6 +7,8 @@ import CourseDetail from "./StudentPages/CourseDetail";
 import Section from "./component/Lesson";
 import Quizz from "./component/Quizz";
 import AttempQuizz from "./StudentPages/AttempQuizz";
+import DoQuizz from "./StudentPages/DoQuizz";
+import Login from "./StudentPages/Login";
 
 function App() {
   return (
@@ -37,6 +39,11 @@ function App() {
         <Route path="/course/:id/Lectures" element={<Section />} />
         <Route path="/course/:id/Quizzes" element={<Quizz />} />
         <Route path="/course/:id/Quizzes/:quizzId" element={<AttempQuizz />} />
+        <Route
+          path="/course/:id/Quizzes/:quizzId/doQuizz"
+          element={<DoQuizz />}
+        />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </>
   );

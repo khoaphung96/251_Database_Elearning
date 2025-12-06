@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
-import Accordion from "../component/Accordion";
+import { jwtDecode } from "jwt-decode";
+// import Accordion from "../component/Accordion";
 import "../css/courseDetail.css";
 
 function CourseDetail() {
@@ -16,30 +17,44 @@ function CourseDetail() {
   const [quizzs, setQuizzs] = useState([]);
   const ref = useRef(null);
   const API_URL = "https://canxphung.dev/api";
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiYWRtaW5AbG1zLmNvbSIsInVzZXJDb2RlIjoiQURNSU4wMDEiLCJyb2xlIjoic3RhZmYiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzY1MDA0OTc4LCJleHAiOjE3NjUwMDg1Nzh9.xdgbuCmdhFb3GMuhUUI00Ou3HL2POQ2oOf12KI8FjtE";
+  const token = localStorage.getItem("token");
+  const payload = jwtDecode(token);
 
   useEffect(() => {
-    const loadCourseOfferingList = async (path) => {
-      try {
-        const response = await fetch(`${API_URL}${path}`, {
-          method: "GET",
+    const loadStudentClasses = async () => {
+      const response = await fetch(
+        `${API_URL}/classes/students/${payload.userId}/classes`,
+        {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
           },
-        });
+        }
+      );
 
-        if (!response.ok) throw new Error("Lỗi API: " + response.status);
+      let result = await response.json();
 
-        const data = await response.json();
-        setCoursesOffering(data);
-      } catch (error) {
-        setError(true);
-      }
+      let classes = result.data;
+
+      classes = Array.isArray(classes) ? classes : [classes];
+
+      const detailedClasses = await Promise.all(
+        classes.map(async (c) => {
+          const res = await fetch(
+            `${API_URL}/classes/${c.offering_id}/${c.section_no}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          return res.json();
+        })
+      );
+
+      setCoursesOffering(detailedClasses);
     };
 
-    loadCourseOfferingList("/academic/offerings");
+    loadStudentClasses();
 
     const loadContentList = async (path) => {
       try {
@@ -87,7 +102,7 @@ function CourseDetail() {
   if (coursesOffering.length == 0) return <p>Đang tải...</p>;
 
   const courseOffering = coursesOffering.find(
-    (courseOffering) => courseOffering.id == id
+    (courseOffering) => courseOffering.data.offering_id == id
   );
 
   const quizzByOffering = quizzs.filter((quizz) => quizz.offering_id == id);
@@ -97,7 +112,7 @@ function CourseDetail() {
       <div className="course-header">
         <h1 className="course-title">
           {courseOffering &&
-            courseOffering.course_name + "_" + courseOffering.section}
+            courseOffering.data.course_name + "_" + courseOffering.data.section}
         </h1>
         <div className="tabs">
           <button

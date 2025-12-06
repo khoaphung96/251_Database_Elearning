@@ -9,7 +9,9 @@ function CourseCard({ course, courseOffering }) {
         cursor: "pointer",
         transition: "0.2s",
       }}
-      onClick={() => (window.location.href = `/course/${courseOffering.id}`)}
+      onClick={() =>
+        (window.location.href = `/course/${courseOffering.offering_id}`)
+      }
     >
       <div
         style={{

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { jwtDecode } from "jwt-decode";
 import CoursesGrid from "./CoursesGrid";
 
 function Course() {
@@ -7,33 +8,44 @@ function Course() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const API_URL = "https://canxphung.dev/api";
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiYWRtaW5AbG1zLmNvbSIsInVzZXJDb2RlIjoiQURNSU4wMDEiLCJyb2xlIjoic3RhZmYiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzY1MDA0OTc4LCJleHAiOjE3NjUwMDg1Nzh9.xdgbuCmdhFb3GMuhUUI00Ou3HL2POQ2oOf12KI8FjtE";
+  const token = localStorage.getItem("token");
+  const payload = jwtDecode(token);
 
   useEffect(() => {
-    const loadCourseOfferingList = async (path) => {
-      try {
-        setLoading(true);
-        const response = await fetch(`${API_URL}${path}`, {
-          method: "GET",
+    const loadStudentClasses = async () => {
+      const response = await fetch(
+        `${API_URL}/classes/students/${payload.userId}/classes`,
+        {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
           },
-        });
+        }
+      );
 
-        if (!response.ok) throw new Error("Lỗi API: " + response.status);
+      let result = await response.json();
 
-        const data = await response.json();
-        setCoursesOffering(data);
-      } catch (error) {
-        setError(true);
-      } finally {
-        setLoading(false);
-      }
+      let classes = result.data;
+
+      classes = Array.isArray(classes) ? classes : [classes];
+
+      const detailedClasses = await Promise.all(
+        classes.map(async (c) => {
+          const res = await fetch(
+            `${API_URL}/classes/${c.offering_id}/${c.section_no}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          return res.json();
+        })
+      );
+
+      setCoursesOffering(detailedClasses);
     };
 
-    loadCourseOfferingList("/academic/offerings");
+    loadStudentClasses();
   }, []);
 
   if (loading) return <p>Đang tải...</p>;

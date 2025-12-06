@@ -1,13 +1,17 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+import StartAttemptModal from "../component/StartAttemptModel";
+import "../css/courseDetail.css";
 
 export default function AttempQuizz() {
   const { id, quizzId } = useParams();
   const [quizz, setQuizz] = useState([]);
   const [error, setError] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
   const API_URL = "https://canxphung.dev/api";
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiYWRtaW5AbG1zLmNvbSIsInVzZXJDb2RlIjoiQURNSU4wMDEiLCJyb2xlIjoic3RhZmYiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzY1MDA0OTc4LCJleHAiOjE3NjUwMDg1Nzh9.xdgbuCmdhFb3GMuhUUI00Ou3HL2POQ2oOf12KI8FjtE";
+  const token = localStorage.getItem("token");
+  const payload = jwtDecode(token);
 
   useEffect(() => {
     const loadQuizzByOfferingAndQuizzId = async (path) => {
@@ -60,7 +64,17 @@ export default function AttempQuizz() {
           {formatDateVN(quizz.available_until)}
         </p>
       </div>
-      <button>Attempt Quizz</button>
+      <button className="attempt-btn" onClick={() => setShowPopup(true)}>
+        Attempt Quizz
+      </button>
+      {showPopup && (
+        <StartAttemptModal
+          offering_id={id}
+          quizz_id={quizzId}
+          time_limit={quizz.time_limit_minutes}
+          onClose={() => setShowPopup(false)}
+        />
+      )}
       <div>
         <p>Attempts allowed: {quizz.max_attempts}</p>
         <p>Time limit: {quizz.time_limit_minutes} mins</p>
