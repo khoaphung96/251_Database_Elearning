@@ -1,5 +1,5 @@
 import "./App.css";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import Home from "./StudentPages/Home";
 import About from "./StudentPages/About";
 import Course from "./StudentPages/Course";
@@ -11,25 +11,57 @@ import DoQuizz from "./StudentPages/DoQuizz";
 import Login from "./StudentPages/Login";
 
 function App() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    if (window.confirm("Bạn có chắc muốn đăng xuất không?")) {
+      localStorage.removeItem("token");
+      navigate("/login");
+    }
+  };
+
   return (
     <>
       <nav
         style={{
-          display: "flex",
-          gap: 20,
           position: "fixed",
           top: 0,
           left: 0,
           width: "100%",
-          padding: "15px 25px",
           background: "white",
           borderBottom: "1px solid #e5e5e5",
           zIndex: 1000,
         }}
       >
-        <Link to="/">Home</Link>
-        <Link to="/about">About</Link>
-        <Link to="/student/courses">My Courses</Link>
+        <div
+          style={{
+            maxWidth: "1280px",
+            margin: "0 auto",
+            padding: "15px 25px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <div style={{ display: "flex", gap: 20 }}>
+            <Link to="/">Home</Link>
+            <Link to="/about">About</Link>
+            <Link to="/student/courses">My Courses</Link>
+          </div>
+          <button
+            onClick={handleLogout}
+            style={{
+              background: "transparent",
+              border: "1px solid #ccc",
+              padding: "6px 12px",
+              borderRadius: "4px",
+              cursor: "pointer",
+              color: "black",
+            }}
+          >
+            Logout
+          </button>
+        </div>
       </nav>
       <Routes>
         <Route path="/" element={<Home />} />
