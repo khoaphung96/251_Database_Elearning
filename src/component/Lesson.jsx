@@ -43,7 +43,7 @@ export default function Section({}) {
             <a
               className="section-body_content"
               key={contents.seq_no}
-              href={`/course/${id}/1${contents.url}`}
+              href={`/student/course/${id}/1${contents.url}`}
             >
               {contents.title}
             </a>
@@ -58,7 +58,7 @@ export default function Section({}) {
               <a
                 className="section-body_content"
                 key={content.seq_no}
-                href={`/course/${id}/1${content.url}`}
+                href={`/student/course/${id}/1${content.url}`}
               >
                 {content.title}
               </a>

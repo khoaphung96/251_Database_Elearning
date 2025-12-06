@@ -29,7 +29,7 @@ export default function StartAttemptModal({
           <button
             className="start-btn"
             onClick={() =>
-              (window.location.href = `/course/${offering_id}/Quizzes/${quizz_id}/doQuizz`)
+              (window.location.href = `/student/course/${offering_id}/Quizzes/${quizz_id}/doQuizz`)
             }
           >
             Start attempt

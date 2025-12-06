@@ -29,18 +29,21 @@ function App() {
       >
         <Link to="/">Home</Link>
         <Link to="/about">About</Link>
-        <Link to="/courses">My Courses</Link>
+        <Link to="/student/courses">My Courses</Link>
       </nav>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-        <Route path="/courses" element={<Course />} />
-        <Route path="/course/:id" element={<CourseDetail />} />
-        <Route path="/course/:id/Lectures" element={<Section />} />
-        <Route path="/course/:id/Quizzes" element={<Quizz />} />
-        <Route path="/course/:id/Quizzes/:quizzId" element={<AttempQuizz />} />
+        <Route path="/student/courses" element={<Course />} />
+        <Route path="/student/course/:id" element={<CourseDetail />} />
+        <Route path="/student/course/:id/Lectures" element={<Section />} />
+        <Route path="/student/course/:id/Quizzes" element={<Quizz />} />
         <Route
-          path="/course/:id/Quizzes/:quizzId/doQuizz"
+          path="/student/course/:id/Quizzes/:quizzId"
+          element={<AttempQuizz />}
+        />
+        <Route
+          path="/student/course/:id/Quizzes/:quizzId/doQuizz"
           element={<DoQuizz />}
         />
         <Route path="/login" element={<Login />} />

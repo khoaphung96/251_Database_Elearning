@@ -10,7 +10,7 @@ function CourseCard({ course, courseOffering }) {
         transition: "0.2s",
       }}
       onClick={() =>
-        (window.location.href = `/course/${courseOffering.offering_id}`)
+        (window.location.href = `/student/course/${courseOffering.offering_id}`)
       }
     >
       <div
