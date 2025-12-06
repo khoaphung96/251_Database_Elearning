@@ -1,0 +1,93 @@
+[
+  {
+    "course_id": 1,
+    "code": "CS101",
+    "name": "Introduction to Computer Science",
+    "credits": 3,
+    "lecture_hours": 3,
+    "lab_hours": 0,
+    "total_hours": 6,
+    "semester": 1,
+    "status": "active",
+    "created_at": "2025-11-27 10:18:50.682017",
+    "updated_at": "2025-11-27 10:18:50.682017"
+  },
+  {
+    "course_id": 2,
+    "code": "MATH101",
+    "name": "Calculus I",
+    "credits": 4,
+    "lecture_hours": 3,
+    "lab_hours": 2,
+    "total_hours": 7,
+    "semester": 2,
+    "status": "active",
+    "created_at": "2025-11-27 10:18:50.682017",
+    "updated_at": "2025-11-27 10:18:50.682017"
+  },
+  {
+    "course_id": 3,
+    "code": "PHYS101",
+    "name": "General Physics",
+    "credits": 4,
+    "lecture_hours": 3,
+    "lab_hours": 2,
+    "total_hours": 7,
+    "semester": 3,
+    "status": "active",
+    "created_at": "2025-11-27 10:18:50.682017",
+    "updated_at": "2025-11-27 10:18:50.682017"
+  },
+  {
+    "course_id": 4,
+    "code": "IT001",
+    "name": "Nhập môn Lập trình",
+    "credits": 3,
+    "lecture_hours": 30,
+    "lab_hours": 30,
+    "total_hours": 90,
+    "semester": 1,
+    "status": "active",
+    "created_at": "2025-11-30 06:32:30.349239",
+    "updated_at": "2025-11-30 06:32:30.349239"
+  },
+  {
+    "course_id": 5,
+    "code": "IT002",
+    "name": "Cấu trúc dữ liệu",
+    "credits": 4,
+    "lecture_hours": 45,
+    "lab_hours": 30,
+    "total_hours": 125,
+    "semester": 1,
+    "status": "active",
+    "created_at": "2025-11-30 06:32:30.349239",
+    "updated_at": "2025-11-30 06:32:30.349239"
+  },
+  {
+    "course_id": 6,
+    "code": "IT003",
+    "name": "Cơ sở dữ liệu",
+    "credits": 3,
+    "lecture_hours": 30,
+    "lab_hours": 30,
+    "total_hours": 90,
+    "semester": 1,
+    "status": "active",
+    "created_at": "2025-11-30 06:32:30.349239",
+    "updated_at": "2025-11-30 06:32:30.349239"
+  },
+  {
+    "course_id": 7,
+    "code": "ECO001",
+    "name": "Kinh tế vi mô",
+    "credits": 3,
+    "lecture_hours": 45,
+    "lab_hours": 0,
+    "total_hours": 105,
+    "semester": 2,
+    "status": "active",
+    "created_at": "2025-11-30 06:32:30.349239",
+    "updated_at": "2025-11-30 06:32:30.349239"
+  }
+]

@@ -1,0 +1,102 @@
+[
+  {
+    "section_id": 1,
+    "offerring_id": 1,
+    "title": "General"
+  },
+  {
+    "section_id": 2,
+    "offerring_id": 1,
+    "title": "Bài Giảng"
+  },
+  {
+    "section_id": 3,
+    "offerring_id": 1,
+    "title": "Quiz"
+  },
+  {
+    "section_id": 4,
+    "offerring_id": 1,
+    "title": "A"
+  },
+  {
+    "section_id": 5,
+    "offerring_id": 1,
+    "title": "B"
+  },
+  {
+    "section_id": 6,
+    "offerring_id": 2,
+    "title": "General"
+  },
+  {
+    "section_id": 7,
+    "offerring_id": 2,
+    "title": "Bài Giảng"
+  },
+  {
+    "section_id": 8,
+    "offerring_id": 2,
+    "title": "Quiz"
+  },
+  {
+    "section_id": 9,
+    "offerring_id": 2,
+    "title": "A"
+  },
+  {
+    "section_id": 10,
+    "offerring_id": 2,
+    "title": "B"
+  },
+  {
+    "section_id": 11,
+    "offerring_id": 2,
+    "title": "C"
+  },
+  {
+    "section_id": 12,
+    "offerring_id": 3,
+    "title": "General"
+  },
+  {
+    "section_id": 13,
+    "offerring_id": 3,
+    "title": "Bài Giảng"
+  },
+  {
+    "section_id": 14,
+    "offerring_id": 3,
+    "title": "Quiz"
+  },
+  {
+    "section_id": 15,
+    "offerring_id": 4,
+    "title": "General"
+  },
+  {
+    "section_id": 16,
+    "offerring_id": 4,
+    "title": "Bài Giảng"
+  },
+  {
+    "section_id": 17,
+    "offerring_id": 4,
+    "title": "Quiz"
+  },
+  {
+    "section_id": 18,
+    "offerring_id": 5,
+    "title": "General"
+  },
+  {
+    "section_id": 19,
+    "offerring_id": 5,
+    "title": "Bài Giảng"
+  },
+  {
+    "section_id": 20,
+    "offerring_id": 5,
+    "title": "Quiz"
+  }
+]

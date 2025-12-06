@@ -1,0 +1,79 @@
+[
+  {
+    "id": 1,
+    "course_id": 1,
+    "instructor_id": 1,
+    "section": "01",
+    "syllabus_url": "/syllabi/CS101_01.pdf",
+    "clo": {
+      "clo1": "Understand core concepts",
+      "clo2": "Apply knowledge to solve problems",
+      "clo3": "Analyze and evaluate solutions"
+    },
+    "max_students": 50,
+    "status": "open",
+    "created_at": "2025-11-27 10:18:50.68568",
+    "updated_at": "2025-11-30 06:32:04.428186",
+    "color": "#6B7BEE"
+  },
+  {
+    "id": 2,
+    "course_id": 1,
+    "instructor_id": 1,
+    "section": "02",
+    "syllabus_url": "/syllabi/CS101_02.pdf",
+    "clo": {
+      "clo1": "Understand core concepts",
+      "clo2": "Apply knowledge to solve problems",
+      "clo3": "Analyze and evaluate solutions"
+    },
+    "max_students": 50,
+    "status": "open",
+    "created_at": "2025-11-27 10:18:50.68568",
+    "updated_at": "2025-11-30 06:32:04.428186",
+    "color": "#FF6F61"
+  },
+  {
+    "id": 3,
+    "course_id": 2,
+    "instructor_id": 1,
+    "section": "01",
+    "syllabus_url": "/syllabi/MATH101_01.pdf",
+    "clo": {
+      "clo1": "Understand core concepts",
+      "clo2": "Apply knowledge to solve problems",
+      "clo3": "Analyze and evaluate solutions"
+    },
+    "max_students": 40,
+    "status": "open",
+    "created_at": "2025-11-27 10:18:50.68568",
+    "updated_at": "2025-11-30 06:32:04.428186",
+    "color": "#32D296"
+  },
+  {
+    "id": 4,
+    "course_id": 6,
+    "instructor_id": 6,
+    "section": "01",
+    "syllabus_url": null,
+    "clo": null,
+    "max_students": 40,
+    "status": "open",
+    "created_at": "2025-11-30 06:32:30.353692",
+    "updated_at": "2025-11-30 06:32:30.353692",
+    "color": "#FBC02D"
+  },
+  {
+    "id": 5,
+    "course_id": 4,
+    "instructor_id": 6,
+    "section": "01",
+    "syllabus_url": null,
+    "clo": null,
+    "max_students": 60,
+    "status": "open",
+    "created_at": "2025-11-30 06:32:30.353692",
+    "updated_at": "2025-11-30 06:32:30.353692",
+    "color": "#9B59B6"
+  }
+]
