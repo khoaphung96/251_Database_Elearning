@@ -96,7 +96,7 @@ function CourseDetail() {
       }
     };
 
-    loadQuizzList(`/assessment/quizzes`);
+    loadQuizzList(`/assessment/quizzes/offering/${id}`);
   }, []);
 
   if (coursesOffering.length == 0) return <p>Đang tải...</p>;

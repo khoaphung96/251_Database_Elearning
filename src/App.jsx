@@ -9,6 +9,7 @@ import Quizz from "./component/Quizz";
 import AttempQuizz from "./StudentPages/AttempQuizz";
 import DoQuizz from "./StudentPages/DoQuizz";
 import Login from "./StudentPages/Login";
+import QuizzResult from "./StudentPages/QuizzResult";
 
 function App() {
   const navigate = useNavigate();
@@ -73,6 +74,10 @@ function App() {
         <Route
           path="/student/course/:id/Quizzes/:quizzId"
           element={<AttempQuizz />}
+        />
+        <Route
+          path="/student/course/:id/Quizzes/:quizzId/result"
+          element={<QuizzResult />}
         />
         <Route
           path="/student/course/:id/Quizzes/:quizzId/doQuizz"
