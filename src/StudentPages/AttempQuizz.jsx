@@ -1,19 +1,17 @@
-import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
-import CoursesGrid from "./CoursesGrid";
+import { useState, useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
 
-function Course() {
-  const [coursesOffering, setCoursesOffering] = useState([]);
-  const [loading, setLoading] = useState(false);
+export default function AttempQuizz() {
+  const { id, quizzId } = useParams();
+  const [quizz, setQuizz] = useState([]);
   const [error, setError] = useState(null);
   const API_URL = "https://canxphung.dev/api";
   const token =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiYWRtaW5AbG1zLmNvbSIsInVzZXJDb2RlIjoiQURNSU4wMDEiLCJyb2xlIjoic3RhZmYiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzY0OTkwNDA0LCJleHAiOjE3NjQ5OTQwMDR9.onjAh51zqzmU83-by0zbHTJSoTDFt2Bz3AKE1dgYZ-o";
 
   useEffect(() => {
-    const loadCourseOfferingList = async (path) => {
+    const loadQuizzByOfferingAndQuizzId = async (path) => {
       try {
-        setLoading(true);
         const response = await fetch(`${API_URL}${path}`, {
           method: "GET",
           headers: {
@@ -25,30 +23,33 @@ function Course() {
         if (!response.ok) throw new Error("Lỗi API: " + response.status);
 
         const data = await response.json();
-        setCoursesOffering(data);
+        setQuizz(data.data);
       } catch (error) {
         setError(true);
-      } finally {
-        setLoading(false);
       }
     };
 
-    loadCourseOfferingList("/academic/offerings");
+    loadQuizzByOfferingAndQuizzId(`/assessment/quizzes/${id}/1/${quizzId}`);
   }, []);
 
-  if (loading) return <p>Đang tải...</p>;
-  if (error) return <p style={{ color: "red" }}>{error}</p>;
-
   return (
-    <div style={{ padding: "30px 70px" }}>
-      <h1 style={{ fontSize: "32px", color: "#0046d5", fontWeight: 600 }}>
-        My Courses
-      </h1>
-
-      {/* <FiltersBar /> */}
-      <CoursesGrid coursesOffering={coursesOffering} />
+    <div>
+      <h1>{quizz.title}</h1>
+      <div>
+        <p>
+          <strong>Opened: </strong>
+          {quizz.available_from}
+        </p>
+        <p>
+          <strong>Closed: </strong>
+          {quizz.available_until}
+        </p>
+      </div>
+      <button>Attempt Quizz</button>
+      <div>
+        <p>Attempts allowed: {quizz.max_attempts}</p>
+        <p>Time limit: {quizz.time_limit_minutes} mins</p>
+      </div>
     </div>
   );
 }
-
-export default Course;

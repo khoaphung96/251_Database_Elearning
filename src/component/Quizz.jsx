@@ -8,7 +8,7 @@ export default function Quizz({}) {
   const [error, setError] = useState(null);
   const API_URL = "https://canxphung.dev/api";
   const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiYWRtaW5AbG1zLmNvbSIsInVzZXJDb2RlIjoiQURNSU4wMDEiLCJyb2xlIjoic3RhZmYiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzY0OTg2NzIwLCJleHAiOjE3NjQ5OTAzMjB9.1E6gBpLcFZW8QncP5UX97u6V4xmWqMurcWXY6Ap9g2w";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiYWRtaW5AbG1zLmNvbSIsInVzZXJDb2RlIjoiQURNSU4wMDEiLCJyb2xlIjoic3RhZmYiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzY0OTkwNDA0LCJleHAiOjE3NjQ5OTQwMDR9.onjAh51zqzmU83-by0zbHTJSoTDFt2Bz3AKE1dgYZ-o";
 
   useEffect(() => {
     const loadQuizzList = async (path) => {

@@ -6,6 +6,7 @@ import Course from "./StudentPages/Course";
 import CourseDetail from "./StudentPages/CourseDetail";
 import Section from "./component/Lesson";
 import Quizz from "./component/Quizz";
+import AttempQuizz from "./StudentPages/AttempQuizz";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
         <Route path="/course/:id" element={<CourseDetail />} />
         <Route path="/course/:id/Lectures" element={<Section />} />
         <Route path="/course/:id/Quizzes" element={<Quizz />} />
+        <Route path="/course/:id/Quizzes/:quizzId" element={<AttempQuizz />} />
       </Routes>
     </>
   );
