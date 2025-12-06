@@ -106,3 +106,8 @@
 .section-body_content a {
   display: block;
 }
+
+.acc-body p {
+  color: blue;
+  cursor: pointer;
+}

@@ -225,7 +225,7 @@ function CourseDetail() {
                       <a
                         className="acc-body_content"
                         key={quizzByOffering.seq_no}
-                        href={`/course/${id}/1${quizzByOffering.url}`}
+                        href={`/course/${id}/${quizzByOffering.url}`}
                       >
                         {quizzByOffering.title}
                       </a>
@@ -233,6 +233,9 @@ function CourseDetail() {
                       <p
                         className="acc-body_content"
                         key={quizzByOffering.seq_no}
+                        onClick={() =>
+                          (window.location.href = `/course/${id}/Quizzes/${quizzByOffering.seq_no}`)
+                        }
                       >
                         {quizzByOffering.title}
                       </p>
@@ -243,12 +246,18 @@ function CourseDetail() {
                         <a
                           className="acc-body_content"
                           key={quizz.seq_no}
-                          href={`/course/${id}/1${quizz.url}`}
+                          href={`/course/${id}/${quizz.url}`}
                         >
                           {quizz.title}
                         </a>
                       ) : (
-                        <p className="acc-body_content" key={quizz.seq_no}>
+                        <p
+                          className="acc-body_content"
+                          key={quizz.seq_no}
+                          onClick={() =>
+                            (window.location.href = `/course/${id}/Quizzes/${quizz.seq_no}`)
+                          }
+                        >
                           {quizz.title}
                         </p>
                       );

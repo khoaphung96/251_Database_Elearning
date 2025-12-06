@@ -1,9 +1,9 @@
 import "./App.css";
 import { Routes, Route, Link } from "react-router-dom";
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Course from "./pages/Course";
-import CourseDetail from "./pages/CourseDetail";
+import Home from "./StudentPages/Home";
+import About from "./StudentPages/About";
+import Course from "./StudentPages/Course";
+import CourseDetail from "./StudentPages/CourseDetail";
 import Section from "./component/Lesson";
 import Quizz from "./component/Quizz";
 
