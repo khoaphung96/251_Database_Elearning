@@ -9,9 +9,20 @@ function Course() {
   const [error, setError] = useState(null);
   const API_URL = "https://canxphung.dev/api";
   const token = localStorage.getItem("token");
+
+  if (!token) {
+    return (
+      <div>
+        <a href="/login">Đăng nhập để tiếp tục</a>
+      </div>
+    );
+  }
+
   const payload = jwtDecode(token);
 
   useEffect(() => {
+    setLoading(true);
+
     const loadStudentClasses = async () => {
       const response = await fetch(
         `${API_URL}/classes/students/${payload.userId}/classes`,
@@ -46,6 +57,7 @@ function Course() {
     };
 
     loadStudentClasses();
+    setLoading(false);
   }, []);
 
   if (loading) return <p>Đang tải...</p>;

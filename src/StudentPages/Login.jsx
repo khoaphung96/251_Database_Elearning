@@ -35,14 +35,12 @@ export default function Login() {
       }
 
       const data = await response.json();
-      console.log("Login thành công:", data);
 
       if (data.token) {
         localStorage.setItem("token", data.token);
       }
 
       navigate("/");
-      alert("Đăng nhập thành công!");
     } catch (err) {
       console.log(err);
       setError("Sai tài khoản hoặc mật khẩu.");
