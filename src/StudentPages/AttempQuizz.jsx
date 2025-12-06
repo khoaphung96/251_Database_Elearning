@@ -7,7 +7,7 @@ export default function AttempQuizz() {
   const [error, setError] = useState(null);
   const API_URL = "https://canxphung.dev/api";
   const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiYWRtaW5AbG1zLmNvbSIsInVzZXJDb2RlIjoiQURNSU4wMDEiLCJyb2xlIjoic3RhZmYiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzY0OTkwNDA0LCJleHAiOjE3NjQ5OTQwMDR9.onjAh51zqzmU83-by0zbHTJSoTDFt2Bz3AKE1dgYZ-o";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiYWRtaW5AbG1zLmNvbSIsInVzZXJDb2RlIjoiQURNSU4wMDEiLCJyb2xlIjoic3RhZmYiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzY1MDA0OTc4LCJleHAiOjE3NjUwMDg1Nzh9.xdgbuCmdhFb3GMuhUUI00Ou3HL2POQ2oOf12KI8FjtE";
 
   useEffect(() => {
     const loadQuizzByOfferingAndQuizzId = async (path) => {
@@ -32,17 +32,32 @@ export default function AttempQuizz() {
     loadQuizzByOfferingAndQuizzId(`/assessment/quizzes/${id}/1/${quizzId}`);
   }, []);
 
+  const formatDateVN = (dateInput) => {
+    if (!dateInput) return "";
+
+    const d = new Date(dateInput);
+
+    const day = d.getDate().toString().padStart(2, "0");
+    const month = (d.getMonth() + 1).toString().padStart(2, "0");
+    const year = d.getFullYear();
+
+    const hour = d.getHours().toString().padStart(2, "0");
+    const minute = d.getMinutes().toString().padStart(2, "0");
+
+    return `${day}/${month}/${year} ${hour}:${minute}`;
+  };
+
   return (
     <div>
       <h1>{quizz.title}</h1>
       <div>
         <p>
           <strong>Opened: </strong>
-          {quizz.available_from}
+          {formatDateVN(quizz.available_from)}
         </p>
         <p>
           <strong>Closed: </strong>
-          {quizz.available_until}
+          {formatDateVN(quizz.available_until)}
         </p>
       </div>
       <button>Attempt Quizz</button>
