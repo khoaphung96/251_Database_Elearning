@@ -185,3 +185,37 @@
   border: none;
   cursor: pointer;
 }
+
+
+/* Modal Content (Hộp nội dung) */
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+
+.form-group { margin-bottom: 15px; }
+.form-group label { display: block; margin-bottom: 5px; font-weight: 500; }
+.form-group input[type="text"] {
+  width: 100%; padding: 8px;
+  border: 1px solid #ddd; border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.modal-actions-ins {
+  justify-content: flex-end;
+}
+
+.checkbox-group label { margin-right: 15px; cursor: pointer; }
+
+.btn-cancel {
+  background-color: #6c757d; color: white; border: none;
+  padding: 8px 16px; border-radius: 4px; cursor: pointer;
+}
+.btn-submit {
+  background-color: #007bff; color: white; border: none;
+  padding: 8px 16px; border-radius: 4px; cursor: pointer;
+}

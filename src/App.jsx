@@ -13,11 +13,27 @@ import Login from "./StudentPages/Login";
 import QuizzResult from "./StudentPages/QuizzResult";
 import IntructorCourse from "./InstructorPages/InstructorCourse";
 import IntructorCourseDetail from "./InstructorPages/InstructorCourseDetail";
+import SectionIntructor from "./InstructorPages/LessonInstructor";
+import InstructorQuizz from "./InstructorPages/InstructorQuizz";
 
 function App() {
-  const token = localStorage.getItem("token");
-  const payload = jwtDecode(token);
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  let payload = null;
+
+  if (token && typeof token === "string") {
+    try {
+      payload = jwtDecode(token);
+    } catch (err) {
+      console.error("Invalid token:", err);
+      localStorage.removeItem("token");
+    }
+  }
+
+  // nếu chưa có token -> chuyển về login
+  if (!payload) {
+    return <Login />;
+  }
 
   const handleLogout = () => {
     if (window.confirm("Bạn có chắc muốn đăng xuất không?")) {
@@ -99,6 +115,8 @@ function App() {
           path="/instructor/course/:id"
           element={<IntructorCourseDetail />}
         />
+        <Route path="/instructor/course/:id/Lectures" element={<SectionIntructor />} />
+        <Route path="/instructor/course/:id/Quizzes" element={<InstructorQuizz />} />
       </Routes>
     </>
   );

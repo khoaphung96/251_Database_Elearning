@@ -9,9 +9,9 @@ function IntructorCoursesGrid({ coursesOffering }) {
         gap: "20px",
       }}
     >
-      {coursesOffering.map((courseOffering) => (
+      {coursesOffering.map((courseOffering, index) => (
         <IntructorCourseCard
-          key={courseOffering.id}
+          key={index}
           courseOffering={courseOffering}
         />
       ))}

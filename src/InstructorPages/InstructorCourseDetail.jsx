@@ -23,7 +23,7 @@ function IntructorCourseDetail() {
   useEffect(() => {
     const loadStudentClasses = async () => {
       const response = await fetch(
-        `${API_URL}/classes/students/${payload.userId}/classes`,
+        `${API_URL}/administration/instructors/${payload.userId}/classes`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -33,9 +33,7 @@ function IntructorCourseDetail() {
 
       let result = await response.json();
 
-      let classes = result.data;
-
-      classes = Array.isArray(classes) ? classes : [classes];
+      const classes = Array.isArray(result) ? result : [result];
 
       const detailedClasses = await Promise.all(
         classes.map(async (c) => {
@@ -70,6 +68,7 @@ function IntructorCourseDetail() {
 
         const data = await response.json();
         setContents(data.data);
+        console.log("content", data)
       } catch (error) {
         setError(true);
       }
@@ -174,7 +173,7 @@ function IntructorCourseDetail() {
               <span
                 className="acc-header_title"
                 onClick={() =>
-                  (window.location.href = `/student/course/${id}/Lectures`)
+                  (window.location.href = `/instructor/course/${id}/Lectures`)
                 }
               >
                 {"Lectures"}
@@ -227,7 +226,7 @@ function IntructorCourseDetail() {
               <span
                 className="acc-header_title"
                 onClick={() =>
-                  (window.location.href = `/student/course/${id}/Quizzes`)
+                  (window.location.href = `/instructor/course/${id}/Quizzes`)
                 }
               >
                 {"Quizzes"}
@@ -251,7 +250,7 @@ function IntructorCourseDetail() {
                         className="acc-body_content"
                         key={quizzByOffering.seq_no}
                         onClick={() =>
-                          (window.location.href = `/student/course/${id}/Quizzes/${quizzByOffering.seq_no}`)
+                          (window.location.href = `/instructor/course/${id}/Quizzes/${quizzByOffering.seq_no}`)
                         }
                       >
                         {quizzByOffering.title}

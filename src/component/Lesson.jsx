@@ -26,6 +26,7 @@ export default function Section({}) {
 
         const data = await response.json();
         setContents(data.data);
+        console.log(data.data)
       } catch (error) {
         setError(true);
       }

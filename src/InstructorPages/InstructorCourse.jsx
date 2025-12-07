@@ -25,7 +25,7 @@ function IntructorCourse() {
 
     const loadInstructorClasses = async () => {
       const response = await fetch(
-        `${API_URL}/academic/offerings/${payload.userId}`,
+        `${API_URL}/administration/instructors/${payload.userId}/classes`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -36,6 +36,7 @@ function IntructorCourse() {
       const result = await response.json();
 
       const classes = Array.isArray(result) ? result : [result];
+      console.log("instructor class: ", classes);
 
       setCoursesOffering(classes);
     };
