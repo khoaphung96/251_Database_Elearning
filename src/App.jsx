@@ -60,6 +60,7 @@ function App() {
             {payload?.role === "instructor" && (
               <Link to="/instructor/courses">My Courses</Link>
             )}
+            {!payload?.role && <Link to="/login">My Courses</Link>}
           </div>
           <button
             onClick={handleLogout}
