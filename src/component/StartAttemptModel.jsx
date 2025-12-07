@@ -1,3 +1,4 @@
+import { jwtDecode } from "jwt-decode";
 import "../css/courseDetail.css";
 
 export default function StartAttemptModal({
@@ -26,14 +27,49 @@ export default function StartAttemptModal({
         <hr />
 
         <div className="modal-actions">
-          <button
+          {/* <button
             className="start-btn"
             onClick={() =>
               (window.location.href = `/student/course/${offering_id}/Quizzes/${quizz_id}/doQuizz`)
             }
           >
             Start attempt
+          </button> */}
+          <button
+            className="start-btn"
+            onClick={async () => {
+              try {
+                const token = localStorage.getItem("token");
+                const payload = jwtDecode(token);
+
+                const res = await fetch(
+                  `https://canxphung.dev/api/assessment/quizzes/${offering_id}/1/${quizz_id}/attempts`,
+                  {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                      Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({
+                      student_id: payload.userId,
+                    }),
+                  }
+                );
+
+                const data = await res.json();
+
+                localStorage.setItem("attempt_id", data.attempt_no);
+
+                window.location.href = `/student/course/${offering_id}/Quizzes/${quizz_id}/doQuizz`;
+              } catch (err) {
+                console.error("Start attempt failed:", err);
+                alert("Không thể bắt đầu bài quiz.");
+              }
+            }}
+          >
+            Start attempt
           </button>
+
           <button className="cancel-btn" onClick={onClose}>
             Cancel
           </button>

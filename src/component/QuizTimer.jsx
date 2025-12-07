@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import "../css/quizz.css";
 
-function QuizTimer() {
-  const [timeLeft, setTimeLeft] = useState(20 * 60);
+function QuizTimer({ time_limit }) {
+  const [timeLeft, setTimeLeft] = useState(time_limit * 60);
 
   useEffect(() => {
     const timer = setInterval(() => {

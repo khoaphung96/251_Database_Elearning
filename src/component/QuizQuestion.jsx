@@ -10,7 +10,7 @@ function QuizQuestionContent({ question, answer, onAnswer }) {
           let isSelected = false;
 
           if (answer) {
-            isSelected = answer.c === c;
+            isSelected = answer === c[0];
           }
 
           return (
@@ -20,7 +20,7 @@ function QuizQuestionContent({ question, answer, onAnswer }) {
                 name={`question-${c}`}
                 value={c}
                 checked={isSelected}
-                onChange={() => onAnswer({ c, question_id: question.id })}
+                onChange={() => onAnswer(c[0])}
               />
 
               <span className="choice-label">
