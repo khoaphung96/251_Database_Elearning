@@ -7,16 +7,20 @@ function QuizQuestionContent({ question, answer, onAnswer }) {
 
       <div className="choices-list">
         {question.options.map((c) => {
-          const isSelected = answer === c;
+          let isSelected = false;
+
+          if (answer) {
+            isSelected = answer.c === c;
+          }
 
           return (
             <label key={c} className="choice-item">
               <input
                 type="radio"
-                name={`question-${question.i}`}
+                name={`question-${c}`}
                 value={c}
                 checked={isSelected}
-                onChange={() => onAnswer(c)}
+                onChange={() => onAnswer({ c, question_id: question.id })}
               />
 
               <span className="choice-label">

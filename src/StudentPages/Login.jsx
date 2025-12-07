@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 import "../css/login.css";
 
 export default function Login() {
@@ -40,7 +41,17 @@ export default function Login() {
         localStorage.setItem("token", data.token);
       }
 
-      navigate("/");
+      const token = localStorage.getItem("token");
+      const payload = jwtDecode(token);
+      console.log(payload);
+
+      if (payload.role === "student") {
+        navigate("/student/courses");
+      }
+
+      if (payload.role === "instructor") {
+        navigate("/instructor/courses");
+      }
     } catch (err) {
       console.log(err);
       setError("Sai tài khoản hoặc mật khẩu.");

@@ -1,5 +1,6 @@
 import "./App.css";
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 import Home from "./StudentPages/Home";
 import About from "./StudentPages/About";
 import Course from "./StudentPages/Course";
@@ -10,8 +11,12 @@ import AttempQuizz from "./StudentPages/AttempQuizz";
 import DoQuizz from "./StudentPages/DoQuizz";
 import Login from "./StudentPages/Login";
 import QuizzResult from "./StudentPages/QuizzResult";
+import IntructorCourse from "./InstructorPages/InstructorCourse";
+import IntructorCourseDetail from "./InstructorPages/InstructorCourseDetail";
 
 function App() {
+  const token = localStorage.getItem("token");
+  const payload = jwtDecode(token);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -47,7 +52,12 @@ function App() {
           <div style={{ display: "flex", gap: 20 }}>
             <Link to="/">Home</Link>
             <Link to="/about">About</Link>
-            <Link to="/student/courses">My Courses</Link>
+            {payload.role === "student" && (
+              <Link to="/student/courses">My Courses</Link>
+            )}
+            {payload.role === "instructor" && (
+              <Link to="/instructor/courses">My Courses</Link>
+            )}
           </div>
           <button
             onClick={handleLogout}
@@ -84,6 +94,11 @@ function App() {
           element={<DoQuizz />}
         />
         <Route path="/login" element={<Login />} />
+        <Route path="/instructor/courses" element={<IntructorCourse />} />
+        <Route
+          path="/instructor/course/:id"
+          element={<IntructorCourseDetail />}
+        />
       </Routes>
     </>
   );
