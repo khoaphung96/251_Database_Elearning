@@ -16,7 +16,9 @@ import IntructorCourseDetail from "./InstructorPages/InstructorCourseDetail";
 
 function App() {
   const token = localStorage.getItem("token");
-  const payload = jwtDecode(token);
+
+  const payload = token ? jwtDecode(token) : null;
+
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -52,10 +54,10 @@ function App() {
           <div style={{ display: "flex", gap: 20 }}>
             <Link to="/">Home</Link>
             <Link to="/about">About</Link>
-            {payload.role === "student" && (
+            {payload?.role === "student" && (
               <Link to="/student/courses">My Courses</Link>
             )}
-            {payload.role === "instructor" && (
+            {payload?.role === "instructor" && (
               <Link to="/instructor/courses">My Courses</Link>
             )}
           </div>

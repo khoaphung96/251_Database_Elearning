@@ -142,7 +142,7 @@ function CourseDetail() {
             {expandedAll ? "Collapse all" : "Expand all"}
           </div>
 
-          <div ref={ref} className="accordion">
+          {/* <div ref={ref} className="accordion">
             <div className="acc-header">
               <span
                 className="arrow"
@@ -161,7 +161,7 @@ function CourseDetail() {
             </div>
 
             {showGeneral && <div className="acc-body"></div>}
-          </div>
+          </div> */}
 
           <div ref={ref} className="accordion">
             <div className="acc-header">
