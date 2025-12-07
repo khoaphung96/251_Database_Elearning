@@ -35,6 +35,7 @@ export default function SectionIntructor({}) {
 
       const data = await response.json();
       setContents(data.data);
+      console.log(data.data)
     } catch (error) {
       console.error(error);
       // setError(true);
@@ -80,7 +81,7 @@ export default function SectionIntructor({}) {
     const payload = {
       offering_id: Number(id), // Lấy từ params
       section_no: 1,
-      seq_no: 1,      // Hardcoded
+      seq_no: 8,      // Hardcoded
       module_no: 1,   // Hardcoded
       title: formData.title,
       type: "lecture",
@@ -99,6 +100,7 @@ export default function SectionIntructor({}) {
         },
         body: JSON.stringify(payload),
       });
+      console.log("res", response)
 
       if (response.ok) {
         alert("Thêm bài giảng thành công!");

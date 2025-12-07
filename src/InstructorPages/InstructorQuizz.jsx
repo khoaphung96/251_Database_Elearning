@@ -17,7 +17,7 @@ export default function InstructorQuizz() {
     duration_minutes: 15,
     total_points: 10,
     status: "draft",
-    type: "quiz", // <--- 1. Thêm mặc định type
+    type: "quiz",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -44,7 +44,12 @@ export default function InstructorQuizz() {
         (q) => String(q.offering_id) === String(id)
       );
       setQuizzes(filteredQuizzes);
-      setSeqNoCurrent(data.data.length);
+      // Logic tính seqNo tiếp theo (lấy max seq_no hiện tại + 1 hoặc length + 1)
+      const maxSeq = filteredQuizzes.reduce(
+        (max, q) => (q.seq_no > max ? q.seq_no : max),
+        0
+      );
+      setSeqNoCurrent(maxSeq);
     } catch (error) {
       console.error(error);
     } finally {
@@ -56,12 +61,42 @@ export default function InstructorQuizz() {
     if (token) loadQuizzList();
   }, [id, token]);
 
+  const handleDelete = async (seq_no) => {
+    if (!window.confirm("Bạn có chắc chắn muốn xóa bài kiểm tra này không?")) {
+      return;
+    }
+
+    try {
+      // Gọi API Delete: /api/assessment/quizzes/{offering_id}/1/{seq_no}
+      const response = await fetch(
+        `${API_URL}/assessment/quizzes/${id}/1/${seq_no}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.ok) {
+        alert("Xóa thành công!");
+        loadQuizzList(); // Tải lại danh sách
+      } else {
+        const errData = await response.json();
+        alert("Lỗi: " + (errData.message || "Không thể xóa bài kiểm tra"));
+      }
+    } catch (error) {
+      console.error("Lỗi khi xóa:", error);
+      alert("Đã có lỗi xảy ra khi xóa.");
+    }
+  };
+
   // --- XỬ LÝ FORM ---
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      // Nếu là số thì parse về Number, ngược lại giữ nguyên string
       [name]:
         name === "duration_minutes" || name === "total_points"
           ? Number(value)
@@ -72,7 +107,6 @@ export default function InstructorQuizz() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate cơ bản
     if (!formData.title) {
       alert("Vui lòng nhập tên bài kiểm tra");
       return;
@@ -82,14 +116,14 @@ export default function InstructorQuizz() {
 
     const payload = {
       offering_id: Number(id),
-      section_no: 1, // Hardcoded
+      section_no: 1,
       seq_no: Number(seqNoCurrent + 1),
       title: formData.title,
       description: formData.description,
       duration_minutes: formData.duration_minutes,
       total_points: formData.total_points,
       status: formData.status,
-      type: formData.type, // <--- 2. Lấy type từ form
+      type: formData.type,
     };
 
     try {
@@ -105,16 +139,15 @@ export default function InstructorQuizz() {
       if (response.ok) {
         alert("Tạo Quiz thành công!");
         setShowModal(false);
-        // Reset form về mặc định
         setFormData({
           title: "",
           description: "",
           duration_minutes: 15,
           total_points: 10,
           status: "draft",
-          type: "quiz", // Reset lại type
+          type: "quiz",
         });
-        loadQuizzList(); // Refresh danh sách
+        loadQuizzList();
       } else {
         const errData = await response.json();
         alert("Lỗi: " + (errData.message || "Không thể tạo quiz"));
@@ -135,36 +168,80 @@ export default function InstructorQuizz() {
 
   return (
     <div className="section">
-      <h1 className="section-header">Quizzes</h1>
-      <button className="btn-add" onClick={() => setShowModal(true)}>
-        + Thêm Quiz
-      </button>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          flexDirection: 'column'
+        }}
+      >
+        <h1 className="section-header">Quizzes</h1>
+        <button className="btn-add" onClick={() => setShowModal(true)}>
+          + Thêm Quiz
+        </button>
+      </div>
 
       {/* --- DANH SÁCH QUIZ --- */}
-      {quizzes.length === 0 ? (
-        <p className="section-body_content">Chưa có bài kiểm tra nào.</p>
-      ) : (
-        quizzes.map((quizz) =>
-          quizz.url ? (
-            <a
-              className="section-body_content"
+      <div className="quiz-list" style={{ marginTop: "15px" }}>
+        {quizzes.length === 0 ? (
+          <p className="section-body_content">Chưa có bài kiểm tra nào.</p>
+        ) : (
+          quizzes.map((quizz) => (
+            <div
               key={quizz.seq_no}
-              href={`/student/course/${id}/1${quizz.url}`}
-            >
-              {quizz.title}
-            </a>
-          ) : (
-            <p
               className="section-body_content"
-              key={quizz.seq_no}
-              onClick={() => handleNavigate(quizz.seq_no)}
-              style={{ cursor: "pointer" }}
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                cursor: "default",
+              }}
             >
-              {quizz.title}
-            </p>
-          )
-        )
-      )}
+              {quizz.url ? (
+                <a
+                  href={`/student/course/${id}/1${quizz.url}`}
+                  style={{ flex: 1, textDecoration: "none", color: "inherit" }}
+                >
+                  {quizz.title}
+                </a>
+              ) : (
+                <span
+                  onClick={() => handleNavigate(quizz.seq_no)}
+                  style={{
+                    flex: 1,
+                    cursor: "pointer",
+                    fontWeight: "500",
+                  }}
+                >
+                  {quizz.title}
+                </span>
+              )}
+
+              {/* Nút Xóa */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDelete(quizz.seq_no);
+                }}
+                style={{
+                  backgroundColor: "#dc3545",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "4px",
+                  padding: "5px 10px",
+                  marginLeft: "10px",
+                  cursor: "pointer",
+                  fontSize: "12px",
+                }}
+                title="Xóa bài kiểm tra này"
+              >
+                Xóa
+              </button>
+            </div>
+          ))
+        )}
+      </div>
 
       {/* --- MODAL POPUP THÊM QUIZ --- */}
       {showModal && (
@@ -173,7 +250,6 @@ export default function InstructorQuizz() {
             <div className="modal-header">Tạo bài kiểm tra mới</div>
 
             <form onSubmit={handleSubmit}>
-              {/* Title */}
               <div className="form-group">
                 <label>Tên bài kiểm tra *</label>
                 <input
@@ -186,7 +262,6 @@ export default function InstructorQuizz() {
                 />
               </div>
 
-              {/* Description */}
               <div className="form-group">
                 <label>Mô tả</label>
                 <input
@@ -198,7 +273,6 @@ export default function InstructorQuizz() {
                 />
               </div>
 
-              {/* Type (Loại bài kiểm tra) - MỚI THÊM VÀO */}
               <div className="form-group">
                 <label>Loại bài kiểm tra</label>
                 <select
@@ -219,7 +293,6 @@ export default function InstructorQuizz() {
                 </select>
               </div>
 
-              {/* Duration & Points */}
               <div style={{ display: "flex", gap: "15px" }}>
                 <div className="form-group" style={{ flex: 1 }}>
                   <label>Thời gian (phút)</label>
@@ -243,7 +316,6 @@ export default function InstructorQuizz() {
                 </div>
               </div>
 
-              {/* Status */}
               <div className="form-group">
                 <label>Trạng thái</label>
                 <select

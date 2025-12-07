@@ -1,6 +1,14 @@
+import { useEffect } from "react";
 import "../css/quizz.css";
 
 function QuizQuestionContent({ question, answer, onAnswer }) {
+  useEffect(() => {
+    console.log(question);
+  }, [question]);
+
+  if (!question) {
+    return <div>Loading...</div>;
+  }
   return (
     <div className="question-box">
       <p className="question-text">{question.stem}</p>
