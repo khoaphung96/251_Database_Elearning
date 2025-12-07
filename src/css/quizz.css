@@ -109,3 +109,42 @@
   background-color: #0d6efd;
   color: white;
 }
+
+.attempt-card {
+  background: #ffffff;
+  border: 1px solid #ddd;
+  padding: 18px;
+  border-radius: 8px;
+  margin: 15px 0;
+  max-width: 600px;
+  color: black;
+}
+
+.attempt-card h3 {
+  margin-bottom: 12px;
+  color: #2b4ea2;
+}
+
+.attempt-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 12px;
+}
+
+.attempt-table td {
+  padding: 6px 4px;
+  border-bottom: 1px solid #eee;
+}
+
+.review-btn {
+  background: #0b5ed7;
+  border: none;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.review-btn:hover {
+  background: #084298;
+}

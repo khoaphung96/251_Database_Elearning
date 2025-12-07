@@ -43,7 +43,6 @@ export default function Login() {
 
       const token = localStorage.getItem("token");
       const payload = jwtDecode(token);
-      console.log(payload);
 
       if (payload.role === "student") {
         navigate("/student/courses");

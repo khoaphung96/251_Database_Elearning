@@ -12,13 +12,17 @@ export default function DoQuizz() {
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
   // const [questions, setQuestions] = useState({});
-  const [answers, setAnswers] = useState({});
+  const [answers, setAnswers] = useState(() => {
+    const saved = localStorage.getItem("quiz_answers");
+    return saved ? JSON.parse(saved) : {};
+  });
   const [quizzAndQuestion, setQuizzAndQuestion] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
   const [error, setError] = useState(null);
   const API_URL = "https://canxphung.dev/api";
   const token = localStorage.getItem("token");
+  const attemptId = localStorage.getItem("attempt_id");
   const payload = jwtDecode(token);
 
   useEffect(() => {
@@ -54,67 +58,70 @@ export default function DoQuizz() {
     if (currentIndex > 0) setCurrentIndex(currentIndex - 1);
   };
 
-  const handleSubmit = () => {
-    console.log("User answers:", answers);
-    // let score = 0;
+  const submitAttempt = async () => {
+    try {
+      const response = await fetch(
+        `${API_URL}/assessment/attempts/${id}/1/${quizzId}/${payload.userId}/submit`,
+        {
+          method: "PUT",
+          headers: {
+            accept: "application/json",
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            status: "submitted",
+            answers: answers,
+            // score: 10,
+            time_spent: 0,
+          }),
+        }
+      );
 
-    // quizzAndQuestion.questions.forEach((q, idx) => {
-    //   if (answers[idx] === q.correct) {
-    //     score++;
-    //   }
-    // });
+      const data = await response.json();
+      return data;
+    } catch (err) {
+      console.error("Lỗi submit attempt:", err);
+    }
+  };
 
-    // console.log("Final score:", score);
+  const handleSubmit = async () => {
+    try {
+      await submitAttempt();
 
-    // setScore(score);
+      localStorage.removeItem("attempt_id");
+      // localStorage.removeItem("quiz_answers");
 
-    const submitAttempt = async () => {
-      try {
-        const response = await fetch(
-          `${API_URL}/assessment/attempts/${id}/1/${quizzId}/${payload.userId}/submit`,
-          {
-            method: "PUT",
-            headers: {
-              accept: "application/json",
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              status: "submitted",
-              answers: answers,
-              score: 0,
-              time_spent: 0,
-            }),
-          }
-        );
-
-        const data = await response.json();
-        console.log("Submit thành công:", data);
-        return data;
-      } catch (err) {
-        console.error("Lỗi submit attempt:", err);
-      }
-    };
-
-    submitAttempt();
-
-    navigate(`/student/course/${id}/Quizzes/${quizzId}`);
+      navigate(`/student/course/${id}/Quizzes/${quizzId}`);
+    } catch (err) {
+      alert("Submit thất bại!");
+    }
   };
 
   return (
     <div className="quiz-container">
       <div className="quiz-body">
         {quizzAndQuestion.quiz && <h1>{quizzAndQuestion.quiz.title}</h1>}
-        <QuizTimer />
+        {quizzAndQuestion.quiz && (
+          <QuizTimer time_limit={quizzAndQuestion.quiz.time_limit_minutes} />
+        )}
         {quizzAndQuestion.questions && (
           <div className="quizz-content">
             <QuizQuestionContent
               question={quizzAndQuestion.questions[currentIndex]}
-              answer={answers[currentIndex]}
+              answer={answers[`q${currentIndex + 1}`]}
               onAnswer={(val) => {
-                setAnswers({ ...answers, [currentIndex]: val });
+                setAnswers({
+                  ...answers,
+                  [`q${currentIndex + 1}`]: val,
+                });
+                // const newAnswers = { ...answers, [currentIndex]: val };
+                // setAnswers(newAnswers);
+                // localStorage.setItem(
+                //   "quiz_answers",
+                //   JSON.stringify(newAnswers)
+                // );
               }}
-              showResult={submitted}
             />
             <NavigationButtons
               current={currentIndex}
