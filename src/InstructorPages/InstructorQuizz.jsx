@@ -7,6 +7,7 @@ export default function InstructorQuizz() {
   const navigate = useNavigate();
   const [quizzes, setQuizzes] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [seqNoCurrent, setSeqNoCurrent] = useState(0);
 
   // --- STATE CHO MODAL THÊM QUIZ ---
   const [showModal, setShowModal] = useState(false);
@@ -16,13 +17,14 @@ export default function InstructorQuizz() {
     duration_minutes: 15,
     total_points: 10,
     status: "draft",
+    type: "quiz", // <--- 1. Thêm mặc định type
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const API_URL = "https://canxphung.dev/api";
   const token = localStorage.getItem("token");
 
-  // Hàm load danh sách Quiz (Tách ra để gọi lại sau khi thêm mới)
+  // Hàm load danh sách Quiz
   const loadQuizzList = async () => {
     try {
       setLoading(true);
@@ -42,6 +44,7 @@ export default function InstructorQuizz() {
         (q) => String(q.offering_id) === String(id)
       );
       setQuizzes(filteredQuizzes);
+      setSeqNoCurrent(data.data.length);
     } catch (error) {
       console.error(error);
     } finally {
@@ -77,16 +80,16 @@ export default function InstructorQuizz() {
 
     setIsSubmitting(true);
 
-    // Payload theo đúng yêu cầu JSON bạn đưa
     const payload = {
       offering_id: Number(id),
       section_no: 1, // Hardcoded
-      seq_no: 1, // Hardcoded
+      seq_no: Number(seqNoCurrent + 1),
       title: formData.title,
       description: formData.description,
       duration_minutes: formData.duration_minutes,
       total_points: formData.total_points,
       status: formData.status,
+      type: formData.type, // <--- 2. Lấy type từ form
     };
 
     try {
@@ -109,6 +112,7 @@ export default function InstructorQuizz() {
           duration_minutes: 15,
           total_points: 10,
           status: "draft",
+          type: "quiz", // Reset lại type
         });
         loadQuizzList(); // Refresh danh sách
       } else {
@@ -194,7 +198,28 @@ export default function InstructorQuizz() {
                 />
               </div>
 
-              {/* Duration & Points (Cùng 1 hàng cho gọn) */}
+              {/* Type (Loại bài kiểm tra) - MỚI THÊM VÀO */}
+              <div className="form-group">
+                <label>Loại bài kiểm tra</label>
+                <select
+                  name="type"
+                  value={formData.type}
+                  onChange={handleInputChange}
+                  style={{
+                    width: "100%",
+                    padding: "8px",
+                    borderRadius: "4px",
+                    border: "1px solid #ddd",
+                  }}
+                >
+                  <option value="quiz">Quiz (Thường xuyên)</option>
+                  <option value="midterm">Midterm (Giữa kỳ)</option>
+                  <option value="final">Final (Cuối kỳ)</option>
+                  <option value="practice">Practice (Luyện tập)</option>
+                </select>
+              </div>
+
+              {/* Duration & Points */}
               <div style={{ display: "flex", gap: "15px" }}>
                 <div className="form-group" style={{ flex: 1 }}>
                   <label>Thời gian (phút)</label>
@@ -238,9 +263,12 @@ export default function InstructorQuizz() {
                 </select>
               </div>
 
-              <div className="modal-actions" style={{
-                justifyContent: 'flex-end'
-              }}>
+              <div
+                className="modal-actions"
+                style={{
+                  justifyContent: "flex-end",
+                }}
+              >
                 <button
                   type="button"
                   className="btn-cancel"
