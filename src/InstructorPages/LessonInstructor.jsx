@@ -7,6 +7,7 @@ export default function SectionIntructor({}) {
   const { id } = useParams(); // id này chính là offering_id
   const [contents, setContents] = useState([]);
   // const [error, setError] = useState(null); // (Tạm ẩn nếu chưa dùng kỹ)
+  const [seqNo, setSeqNo] = useState(0);
   
   // --- STATE CHO MODAL THÊM LECTURE ---
   const [showModal, setShowModal] = useState(false);
@@ -36,6 +37,7 @@ export default function SectionIntructor({}) {
       const data = await response.json();
       setContents(data.data);
       console.log(data.data)
+      setSeqNo(data.data.length);
     } catch (error) {
       console.error(error);
       // setError(true);
@@ -81,14 +83,13 @@ export default function SectionIntructor({}) {
     const payload = {
       offering_id: Number(id), // Lấy từ params
       section_no: 1,
-      seq_no: 8,      // Hardcoded
-      module_no: 1,   // Hardcoded
+      seq_no: Number(seqNo + 1),
+      module_no: 0,   // Hardcoded
       title: formData.title,
       type: "lecture",
       url: formData.url,
       content_data: {},
       visibility: "enrolled",
-      tags: formData.tags
     };
 
     try {

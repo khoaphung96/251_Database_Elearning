@@ -141,7 +141,7 @@ function IntructorCourseDetail() {
             {expandedAll ? "Collapse all" : "Expand all"}
           </div>
 
-          <div ref={ref} className="accordion">
+          {/* <div ref={ref} className="accordion">
             <div className="acc-header">
               <span
                 className="arrow"
@@ -160,7 +160,7 @@ function IntructorCourseDetail() {
             </div>
 
             {showGeneral && <div className="acc-body"></div>}
-          </div>
+          </div> */}
 
           <div ref={ref} className="accordion">
             <div className="acc-header">
@@ -250,7 +250,7 @@ function IntructorCourseDetail() {
                         className="acc-body_content"
                         key={quizzByOffering.seq_no}
                         onClick={() =>
-                          (window.location.href = `/instructor/course/${id}/Quizzes/${quizzByOffering.seq_no}`)
+                          (window.location.href = `/student/course/${id}/Quizzes/${quizzByOffering.seq_no}`)
                         }
                       >
                         {quizzByOffering.title}
