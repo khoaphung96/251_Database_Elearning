@@ -8,7 +8,7 @@ import "../css/courseDetail.css";
 export default function AttempQuizz() {
   const { id, quizzId } = useParams();
   const [quizz, setQuizz] = useState([]);
-  const [attempt, setAttempt] = useState([]);
+  const [attemptByUserId, setAttemptByUserId] = useState([]);
   const [error, setError] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
   const API_URL = "https://canxphung.dev/api";
@@ -50,7 +50,8 @@ export default function AttempQuizz() {
         if (!response.ok) throw new Error("Lỗi API: " + response.status);
 
         const data = await response.json();
-        setAttempt(data);
+
+        setAttemptByUserId(data);
       } catch (error) {
         setError(true);
       }
@@ -58,6 +59,10 @@ export default function AttempQuizz() {
 
     loadAttemptById(`/assessment/students/${payload.userId}/attempts`);
   }, []);
+
+  const attempt = attemptByUserId.filter((a) => {
+    return a.quiz_seq_no == quizzId && a.offering_id == id;
+  });
 
   const formatDateVN = (dateInput) => {
     if (!dateInput) return "";

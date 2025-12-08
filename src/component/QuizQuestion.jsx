@@ -1,6 +1,6 @@
 import "../css/quizz.css";
 
-function QuizQuestionContent({ question, answer, onAnswer }) {
+function QuizQuestionContent({ question, answers, onAnswer }) {
   return (
     <div className="question-box">
       <p className="question-text">{question.stem}</p>
@@ -9,8 +9,8 @@ function QuizQuestionContent({ question, answer, onAnswer }) {
         {question.options.map((c) => {
           let isSelected = false;
 
-          if (answer) {
-            isSelected = answer === c[0];
+          if (answers) {
+            isSelected = answers[`q${question.id}`] === c[0];
           }
 
           return (
@@ -20,7 +20,7 @@ function QuizQuestionContent({ question, answer, onAnswer }) {
                 name={`question-${c}`}
                 value={c}
                 checked={isSelected}
-                onChange={() => onAnswer(c[0])}
+                onChange={() => onAnswer({ val: c[0], id: question.id })}
               />
 
               <span className="choice-label">

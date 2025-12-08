@@ -86,6 +86,7 @@ export default function DoQuizz() {
   };
 
   const handleSubmit = async () => {
+    console.log(answers);
     try {
       await submitAttempt();
 
@@ -109,11 +110,12 @@ export default function DoQuizz() {
           <div className="quizz-content">
             <QuizQuestionContent
               question={quizzAndQuestion.questions[currentIndex]}
-              answer={answers[`q${currentIndex + 1}`]}
+              // answer={answers[`q${currentIndex + 1}`]}
+              answers={answers}
               onAnswer={(val) => {
                 setAnswers({
                   ...answers,
-                  [`q${currentIndex + 1}`]: val,
+                  [`q${val.id}`]: val.val,
                 });
                 // const newAnswers = { ...answers, [currentIndex]: val };
                 // setAnswers(newAnswers);

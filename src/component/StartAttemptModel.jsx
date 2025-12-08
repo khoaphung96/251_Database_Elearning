@@ -27,14 +27,6 @@ export default function StartAttemptModal({
         <hr />
 
         <div className="modal-actions">
-          {/* <button
-            className="start-btn"
-            onClick={() =>
-              (window.location.href = `/student/course/${offering_id}/Quizzes/${quizz_id}/doQuizz`)
-            }
-          >
-            Start attempt
-          </button> */}
           <button
             className="start-btn"
             onClick={async () => {
